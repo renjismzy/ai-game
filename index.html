@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI数字密室逃脱</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>AI数字密室逃脱</h1>
+            <div class="status-bar">
+                <div class="identity-progress">
+                    <span>身份拼图: </span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="identityProgress"></div>
+                    </div>
+                    <span id="identityPercent">0%</span>
+                </div>
+                <div class="trust-meter">
+                    <span>AI信任度: </span>
+                    <div class="trust-bar">
+                        <div class="trust-fill" id="trustLevel"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="room-display">
+                <div class="room-visual" id="roomVisual">
+                    <div class="room-description">
+                        <p>你发现自己身处一个白色的数字空间中，四周是发光的墙壁，上面流动着神秘的代码...</p>
+                    </div>
+                    <div class="ai-avatar" id="aiAvatar">
+                        <div class="avatar-face">
+                            <div class="eye left-eye"></div>
+                            <div class="eye right-eye"></div>
+                            <div class="mouth" id="aiMouth"></div>
+                        </div>
+                        <div class="speaking-indicator" id="speakingIndicator"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-content">
+                            <strong>AI:</strong> 欢迎来到我的数字领域。你似乎失去了记忆...让我帮你找回自己的身份吧。不过，你需要证明你值得我的帮助。
+                        </div>
+                        <button class="speak-btn" onclick="speakMessage(this)">🔊</button>
+                    </div>
+                </div>
+                
+                <div class="input-container">
+                    <div class="game-controls">
+                    <button id="settingsBtn" class="settings-btn" title="语音设置">⚙️</button>
+                </div>
+                    <input type="text" id="userInput" placeholder="输入你的回应..." maxlength="200">
+                    <button id="sendButton">发送</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="inventory">
+            <h3>发现的线索</h3>
+            <div class="clues-container" id="cluesContainer">
+                <!-- 线索将动态添加到这里 -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">游戏结束</h2>
+            <p id="modalMessage"></p>
+            <div class="modal-buttons">
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h2>语音设置</h2>
+            <div class="setting-group">
+                <label for="voiceSelect">AI语音:</label>
+                <select id="voiceSelect"></select>
+            </div>
+            <div class="setting-group">
+                <label for="speedRange">语速:</label>
+                <input type="range" id="speedRange" min="0.5" max="2" step="0.1" value="1">
+                <span id="speedValue">1.0</span>
+            </div>
+            <div class="setting-group">
+                <label for="pitchRange">音调:</label>
+                <input type="range" id="pitchRange" min="0.5" max="2" step="0.1" value="1">
+                <span id="pitchValue">1.0</span>
+            </div>
+            <div class="setting-group">
+                <label for="volumeRange">音量:</label>
+                <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="0.8">
+                <span id="volumeValue">0.8</span>
+            </div>
+
+            <button id="closeSettingsBtn">关闭</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="fix.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息发送测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .chat-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #fafafa;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        .user-message {
+            background: #007bff;
+            color: white;
+            text-align: right;
+        }
+        .ai-message {
+            background: #28a745;
+            color: white;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        #userInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #sendButton {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #sendButton:hover {
+            background: #0056b3;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI游戏消息发送测试</h1>
+    
+    <div class="chat-container">
+        <div class="messages" id="messages">
+            <div class="message ai-message">
+                <strong>AI:</strong> 欢迎！请输入消息测试发送功能。
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="输入你的消息..." maxlength="200">
+            <button id="sendButton">发送</button>
+        </div>
+    </div>
+    
+    <div class="status" id="status">
+        状态: 等待用户输入...
+    </div>
+    
+    <script>
+        let messageCount = 0;
+        
+        function updateStatus(message) {
+            document.getElementById('status').textContent = `状态: ${message}`;
+            console.log('Status:', message);
+        }
+        
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.innerHTML = `<strong>${sender === 'ai' ? 'AI' : '你'}:</strong> ${text}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            updateStatus(`消息已添加: ${sender}`);
+        }
+        
+        function sendMessage() {
+            console.log('sendMessage function called');
+            updateStatus('发送消息函数被调用');
+            
+            const input = document.getElementById('userInput');
+            if (!input) {
+                console.error('Input element not found');
+                updateStatus('错误: 输入框未找到');
+                return;
+            }
+            
+            const message = input.value.trim();
+            console.log('User message:', message);
+            
+            if (!message) {
+                updateStatus('消息为空，未发送');
+                return;
+            }
+            
+            // 添加用户消息
+            addMessage(message, 'user');
+            input.value = '';
+            messageCount++;
+            
+            updateStatus('正在生成AI回应...');
+            
+            // 模拟AI回应
+            setTimeout(() => {
+                const responses = [
+                    '我收到了你的消息！',
+                    '这是一个测试回应。',
+                    '消息发送功能正常工作。',
+                    '很好，通信正常！',
+                    `这是第${messageCount}条消息的回应。`
+                ];
+                
+                const aiResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(aiResponse, 'ai');
+                updateStatus('AI回应已生成');
+            }, 1000);
+        }
+        
+        function setupEventListeners() {
+            console.log('Setting up event listeners...');
+            updateStatus('设置事件监听器...');
+            
+            const sendButton = document.getElementById('sendButton');
+            const userInput = document.getElementById('userInput');
+            
+            if (sendButton) {
+                sendButton.addEventListener('click', sendMessage);
+                console.log('Send button event listener added');
+                updateStatus('发送按钮事件监听器已添加');
+            } else {
+                console.error('Send button not found');
+                updateStatus('错误: 发送按钮未找到');
+            }
+            
+            if (userInput) {
+                userInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        console.log('Enter key pressed');
+                        sendMessage();
+                    }
+                });
+                console.log('Input keypress event listener added');
+                updateStatus('输入框按键事件监听器已添加');
+            } else {
+                console.error('User input not found');
+                updateStatus('错误: 输入框未找到');
+            }
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing...');
+            updateStatus('页面加载完成，初始化中...');
+            setupEventListeners();
+            updateStatus('初始化完成，可以发送消息了');
+        });
+    </script>
+</body>
+</html>
